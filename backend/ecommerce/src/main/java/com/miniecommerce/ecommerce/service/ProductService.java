@@ -1,5 +1,6 @@
 package com.miniecommerce.ecommerce.service;
 
+import com.miniecommerce.ecommerce.exceptions.EntityNotFoundException;
 import com.miniecommerce.ecommerce.model.Product;
 import com.miniecommerce.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,9 @@ public class ProductService {
     }
 
     // Get product by ID
-    public Optional<Product> getProductById(Long id){
-        return productRepository.findById(id);
+    public Product getProductById(Long id){
+        return productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
     // Get products below a stock threshold

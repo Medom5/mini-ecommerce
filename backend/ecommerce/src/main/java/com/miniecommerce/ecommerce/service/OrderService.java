@@ -1,5 +1,7 @@
 package com.miniecommerce.ecommerce.service;
 
+import com.miniecommerce.ecommerce.dto.OrderItemResponse;
+import com.miniecommerce.ecommerce.dto.OrderResponse;
 import com.miniecommerce.ecommerce.exceptions.EntityNotFoundException;
 import com.miniecommerce.ecommerce.model.Order;
 import com.miniecommerce.ecommerce.model.OrderItem;
@@ -59,6 +61,8 @@ public class OrderService {
                     .multiply(new BigDecimal(item.getQuantity()));
             item.setPrice(price);
 
+            item.setProduct(product);
+
           totalPrice = totalPrice.add(price);
         }
 
@@ -68,7 +72,34 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    // admin
+    public List<OrderResponse> getAllOrdersDto() {
+        return orderRepository.findAll()
+                .stream()
+                .map(this::mapToOrderResponse)
+                .toList();
     }
+
+
+
+    public OrderResponse mapToOrderResponse(Order order) {
+        List<OrderItemResponse> items = order.getOrderItems().stream()
+                .map(item -> new OrderItemResponse(
+                        item.getProduct().getId(),
+                        item.getProduct().getName(),
+                        item.getProduct().getPrice(),
+                        item.getQuantity(),
+                        item.getPrice()
+                ))
+                .toList();
+
+        return new OrderResponse(
+                order.getId(),
+                order.getUser().getId(),
+                order.getUser().getEmail(),
+                items,
+                order.getTotal()
+        );
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.miniecommerce.ecommerce.controller;
 
 import com.miniecommerce.ecommerce.dto.CreateOrderRequest;
+import com.miniecommerce.ecommerce.dto.OrderResponse;
 import com.miniecommerce.ecommerce.model.Order;
 import com.miniecommerce.ecommerce.service.OrderService;
 import jakarta.validation.Valid;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -31,17 +31,16 @@ public class OrderController {
      *   ]
      * }
      */
-    @PostMapping
-    public ResponseEntity<Order> addOrder(@Valid @RequestBody CreateOrderRequest request) {
+    @PostMapping("/orders")
+    public ResponseEntity<OrderResponse> addOrder(@Valid @RequestBody CreateOrderRequest request) {
         Order order = orderService.placeOrder(request.userId(), request.items());
-        return ResponseEntity.status(201).body(order);
+        return ResponseEntity.status(201).body(orderService.mapToOrderResponse(order));
     }
 
     // Admin: get all orders
-    @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
+    @GetMapping("/admin/orders")
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrdersDto());
     }
 
 }

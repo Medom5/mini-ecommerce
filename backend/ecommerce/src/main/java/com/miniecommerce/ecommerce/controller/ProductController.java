@@ -19,7 +19,7 @@ public class ProductController {
     }
 
     // Admin: Add product
-    @PostMapping("/products")
+    @PostMapping("/admin/products")
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         Product savedproduct = productService.saveProduct(product);
         return ResponseEntity.status(201).body(savedproduct);
@@ -33,6 +33,7 @@ public class ProductController {
     }
 
     // Admin: List low-stock products
+    @GetMapping("/admin/low-stock")
     public ResponseEntity<List<Product>> getLowStockProducts() {
         List<Product> lowStock = productService.getLowStockProducts(5);
         return ResponseEntity.ok(lowStock);

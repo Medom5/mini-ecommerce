@@ -1,75 +1,60 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-const LoginPage = () => {
-    const [formData, setFormData] = useState({
-        username: "",
-        password: ""
-    });
+const RegisterPage = () => {
+    const [formData, setFormData] = useState({username: "", password: "", role: "USER"});
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-
-    // handle input
-    const handleChange = (e) => {
-        setFormData({...formData, [e.target.name]: e.target.value});
-        if (error) setError(error); // clear error when typing again
-    }
     const navigate = useNavigate();
 
-    // handle submit
-    const handleSubmit = async () => {
+    const handleChange = (e) => {
+        setFormData({...formData, [e.target.name]: e.target.value});
+        if (error) setError("");
+    };
 
-        if (!formData.username || !formData.password) {
+    const handleSubmit = async () => {
+        const {username, password} = formData;
+
+        if (!username || !password) {
             setError("Please fill in all fields");
-            setLoading(false);
             return;
         }
 
-        // Simple email format check
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.username)) {
+        if (!emailRegex.test(username)) {
             setError("Please enter a valid email");
             return;
         }
 
-        setError("");
         setLoading(true);
+        setError("");
 
         try {
-                console.log(JSON.stringify(formData));
-
-            const response = await fetch("http://localhost:8080/auth/login", {
+            const response = await fetch("http://localhost:8080/auth/register", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
-                const token = await response.text();
-                sessionStorage.setItem("token", token);
-                sessionStorage.setItem("username", formData.username);
-                navigate("/"); // redirect to home page after login
+                alert("Registration successful! Please login.");
+                navigate("/auth/login");
             } else {
                 const errData = await response.json();
-                setError(errData.message || "Login failed");
+                setError(errData.message || "Registration failed");
             }
-        } catch (err) {
+        } catch {
             setError("Network error. Please try again.");
         } finally {
             setLoading(false);
         }
-    }
-
-    const goToRegister = () => {
-        navigate("/register");
     };
-
 
     return (
         <div
-            className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+            className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 px-4">
             <div className="max-w-md w-full bg-white shadow-xl rounded-2xl p-6">
-                <h2 className="text-2xl font-bold mb-4">Welcome Back</h2>
+                <h2 className="text-2xl font-bold mb-4">Create Account</h2>
                 {error && <p className="text-red-600 mb-2">{error}</p>}
 
                 <input
@@ -93,21 +78,20 @@ const LoginPage = () => {
                 <button
                     onClick={handleSubmit}
                     disabled={loading}
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 mb-3"
+                    className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 disabled:opacity-50"
                 >
-                    {loading ? "Signing in..." : "Sign In"}
+                    {loading ? "Signing up..." : "Sign Up"}
                 </button>
 
-                {/* Register Button */}
                 <button
-                    onClick={goToRegister}
-                    className="w-full border border-blue-600 text-blue-600 py-3 rounded-lg hover:bg-blue-50"
+                    onClick={() => navigate("/login")}
+                    className="w-full mt-3 border border-green-600 text-green-600 py-3 rounded-lg hover:bg-green-50"
                 >
-                    Sign Up
+                    Sign In
                 </button>
             </div>
         </div>
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

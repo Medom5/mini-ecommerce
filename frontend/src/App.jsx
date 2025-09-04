@@ -3,12 +3,14 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import LoginPage from "./Pages/LoginPage.jsx";
+import RegisterPage from "./Pages/RegisterPage.jsx";
 
 function App() {
 
   return (
     <>
-    <LoginPage/>
+    <RegisterPage/>
+      <LoginPage/>
     </>
   )
 }

@@ -46,27 +46,46 @@ const ProductCatalog = () => {
             setLoading(false);
         }
     };
-
     const addToCart = (product) => {
         setCart(prevCart => {
-            const cartArray = Array.isArray(prevCart) ? prevCart : []; // safety check
-
+            const cartArray = Array.isArray(prevCart) ? prevCart : [];
             const existingItem = cartArray.find(item => item.id === product.id);
+
             if (existingItem) {
-                return cartArray.map(item =>
-                    item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                );
+                // Only increase if quantity < stock
+                if (existingItem.quantity < product.stock) {
+                    return cartArray.map(item =>
+                        item.id === product.id
+                            ? { ...item, quantity: item.quantity + 1 }
+                            : item
+                    );
+                } else {
+                    alert(`Cannot add more than ${product.stock} items for ${product.name}`);
+                    return cartArray;
+                }
             } else {
-                return [...cartArray, { ...product, quantity: 1 }];
+                if (product.stock > 0) {
+                    return [...cartArray, { ...product, quantity: 1 }];
+                } else {
+                    alert(`Product ${product.name} is out of stock`);
+                    return cartArray;
+                }
             }
         });
+
+        // Decrease stock in the products array
+        setProducts(prevProducts =>
+            prevProducts.map(p =>
+                p.id === product.id ? { ...p, stock: p.stock - 1 } : p
+            )
+        );
     };
+
 
     const logout = () => {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('user');
+        sessionStorage.removeItem('cart');
         window.location.href = '/login';
     };
 
@@ -204,11 +223,16 @@ const ProductCatalog = () => {
 
                         <button
                             onClick={() => addToCart(product)}
-                            disabled={product.stock === 0}
-                            className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${product.stock === 0 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
+                            disabled={product.stock === 0 || (cart.find(item => item.id === product.id)?.quantity >= product.stock)}
+                            className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${
+                                product.stock === 0 || (cart.find(item => item.id === product.id)?.quantity >= product.stock)
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                            }`}
                         >
                             {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                         </button>
+
                     </div>
                 </div>))}
             </div>

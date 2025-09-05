@@ -12,7 +12,7 @@ Frontend (React/Vite) ↔ REST API ↔ Spring Boot Backend ↔ H2 Database
 ## Tech Stack
 
 ### Backend
-- **Framework**: Spring Boot (Java 17+)
+- **Framework**: Spring Boot (Java 21+)
 - **Database**: H2-Database
 - **Security**: JWT Authentication with BCrypt password hashing
 - **Architecture**: RESTful API with layered architecture

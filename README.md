@@ -25,7 +25,7 @@ Frontend (React/Vite) ↔ REST API ↔ Spring Boot Backend ↔ H2 Database
 - **HTTP Client**: Fetch API
 - **Bundler**: Vite
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before running the application, ensure you have installed:
 
@@ -44,7 +44,7 @@ Before running the application, ensure you have installed:
    git --version
    ```
 
-## 🚀 Local Setup Instructions
+## Local Setup Instructions
 
 ### 1. Clone the Repository
 ```bash
@@ -90,7 +90,7 @@ npm run dev
 
 The frontend will start on `http://localhost:5173`
 
-## 👤 Test Users & Application Flow
+## Test Users & Application Flow
 
 ### Pre-configured Test Accounts
 
@@ -143,7 +143,7 @@ The frontend will start on `http://localhost:5173`
 ### Admin Endpoints
 - `GET /admin/low-stock` - View low stock items (stock < 5)
 
-## 🎯 Application Flow
+## Application Flow
 
 ### User Journey
 1. **Registration/Login**: Users register or login through auth forms
@@ -165,7 +165,7 @@ User Action → Frontend → API Request → Backend Controller → Service Laye
             Response ← JSON Response ← Business Logic ← Data Access ← H2-Database
 ```
 
-## 🗂️ Project Structure
+## Project Structure
 
 ### Backend Structure
 ```
@@ -202,19 +202,19 @@ frontend/src/
 └── main.jsx                   # Application entry point
 ```
 
-## 🔐 Authentication & Security
+## Authentication & Security
 
 - **JWT Tokens**: Stateless authentication with configurable expiration
 - **Password Hashing**: BCrypt for secure password storage
 - **Role-based Access**: Admin vs User permissions
 
-## 💾 Data Storage
+## Data Storage
 
 - **Backend**: H2 with JPA/Hibernate ORM
 - **Frontend**: localStorage for cart persistence
 - **Session Management**: JWT tokens for authentication state
 
-## 🧪 Testing the Application
+## Testing the Application
 
 ### Test User Registration
 ```bash
@@ -252,9 +252,9 @@ curl -X POST http://localhost:8080/admin/products \
 -d '{"name":"Test Product","price":29.99,"stock":10}'
 ```
 
-## 🎯 Features Implemented
+## Features Implemented
 
-### Core Requirements ✅
+### Core Requirements
 - User registration and authentication
 - Product catalog with stock management
 - Shopping cart functionality
@@ -264,7 +264,7 @@ curl -X POST http://localhost:8080/admin/products \
 - Low stock monitoring
 - Out of stock badges
 
-### Technical Features ✅
+### Technical Features
 - JWT Authentication
 - Role-based access control
 - RESTful API design

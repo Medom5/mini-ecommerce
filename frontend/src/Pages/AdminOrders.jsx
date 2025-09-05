@@ -15,8 +15,7 @@ const AdminOrders = () => {
             const token = sessionStorage.getItem('token');
             const res = await fetch('http://localhost:8080/admin/orders', {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 }
             });
 

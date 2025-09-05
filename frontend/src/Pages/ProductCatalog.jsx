@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import {Navigate, useNavigate} from "react-router-dom";
 
 const ProductCatalog = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [cart, setCart] = useState([]);
+    const navigate = useNavigate();
 
     // Load cart from sessionStorage
     useEffect(() => {
@@ -149,7 +151,8 @@ const ProductCatalog = () => {
 
                     <div className="flex items-center space-x-4">
                         <button
-                            onClick={() => alert(`Cart has ${cart.reduce((sum, item) => sum + item.quantity, 0)} items`)}
+                            onClick={() => {if(cart.length !== 0 )
+                            navigate("/cart")}}
                             className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors"
                         >
                             <svg

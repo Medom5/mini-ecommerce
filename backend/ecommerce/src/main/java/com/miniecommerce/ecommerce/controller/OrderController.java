@@ -22,18 +22,9 @@ public class OrderController {
     }
 
     // User: place order
-    /**
-     * {
-     *   "userId": 1,
-     *   "items": [
-     *     {"product": {"id": 1}, "quantity": 2},
-     *     {"product": {"id": 2}, "quantity": 1}
-     *   ]
-     * }
-     */
     @PostMapping("/orders")
     public ResponseEntity<OrderResponse> addOrder(@Valid @RequestBody CreateOrderRequest request) {
-        Order order = orderService.placeOrder(request.userId(), request.items());
+        Order order = orderService.placeOrder(request.username(), request.items());
         return ResponseEntity.status(201).body(orderService.mapToOrderResponse(order));
     }
 

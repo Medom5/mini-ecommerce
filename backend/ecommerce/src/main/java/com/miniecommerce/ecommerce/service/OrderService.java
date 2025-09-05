@@ -31,8 +31,8 @@ public class OrderService {
     }
 
     @Transactional
-    public Order placeOrder (Long userId, List<OrderItem> items) {
-        User user = userRepository.findById(userId)
+    public Order placeOrder (String username, List<OrderItem> items) {
+        User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         BigDecimal totalPrice = BigDecimal.ZERO;

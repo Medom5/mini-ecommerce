@@ -18,11 +18,12 @@ const AdminAddProduct = () => {
         const payload = {
             name: form.name, price: parseFloat(form.price), stock: parseInt(form.stock)
         };
+        console.log(JSON.stringify(payload));
 
         try {
             setLoading(true);
             const token = sessionStorage.getItem('token');
-            const response = await fetch('http://localhost:8080/products', {
+            const response = await fetch('http://localhost:8080/admin/products', {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`
                 }, body: JSON.stringify(payload)

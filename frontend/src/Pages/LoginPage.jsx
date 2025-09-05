@@ -36,7 +36,6 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-                console.log(JSON.stringify(formData));
 
             const response = await fetch("http://localhost:8080/auth/login", {
                 method: "POST",

@@ -47,7 +47,7 @@ const LoginPage = () => {
                 const token = await response.text();
                 sessionStorage.setItem("token", token);
                 sessionStorage.setItem("username", formData.username);
-                navigate("/"); // redirect to home page after login
+                navigate("/catalog"); // redirect to home page after login
             } else {
                 const errData = await response.json();
                 setError(errData.message || "Login failed");

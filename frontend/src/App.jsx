@@ -16,7 +16,9 @@ function App() {
       <LoginPage/>
 
       <ProductCatalog/>
+      <CartPage/>
       <AdminAddProduct/>
+
     </>
   )
 }

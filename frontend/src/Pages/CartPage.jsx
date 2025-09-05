@@ -33,3 +33,38 @@ const CartPage = () => {
         );
     };
 
+    const placeOrder = async () => {
+        if (!user || cart.length === 0) {
+            alert('Cart is empty or user not logged in');
+            return;
+        }
+
+        // Matching the body json format
+        const orderPayload = {
+            email: user.email,
+            items: cart.map(item => ({ productId: item.id, quantity: item.quantity }))
+        };
+
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await fetch('http://localhost:8080/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(orderPayload)
+            });
+
+            if (response.ok) {
+                alert('Order placed successfully!');
+                setCart([]); // clear cart
+                sessionStorage.removeItem('cart');
+            } else {
+                alert('Failed to place order');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Network error');
+        }
+    };

@@ -38,7 +38,7 @@ const ProductCatalog = () => {
                 const data = await response.json();
                 setProducts(data);
             } else {
-                setError('Failed to fetch products');
+                setError('Unauthorized request');
             }
         } catch (err) {
             setError('Network error. Please try again.');
@@ -48,12 +48,18 @@ const ProductCatalog = () => {
     };
 
     const addToCart = (product) => {
-        setCart((prevCart) => {
-            const existingItem = prevCart.find((item) => item.id === product.id);
+        setCart(prevCart => {
+            const cartArray = Array.isArray(prevCart) ? prevCart : []; // safety check
+
+            const existingItem = cartArray.find(item => item.id === product.id);
             if (existingItem) {
-                return prevCart.map((item) => item.id === product.id ? {...item, quantity: item.quantity + 1} : item);
+                return cartArray.map(item =>
+                    item.id === product.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
             } else {
-                return [...prevCart, {...product, quantity: 1}];
+                return [...cartArray, { ...product, quantity: 1 }];
             }
         });
     };

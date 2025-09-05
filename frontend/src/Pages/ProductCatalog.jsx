@@ -19,6 +19,34 @@ const ProductCatalog = () => {
         sessionStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
+    // Fetch products
+    useEffect(() => {
+        fetchProducts().then((res) => console.log(res));
+    }, []);
+
+
+    const fetchProducts = async () => {
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await fetch('http://localhost:8080/products', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setProducts(data);
+            } else {
+                setError('Failed to fetch products');
+            }
+        } catch (err) {
+            setError('Network error. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
 

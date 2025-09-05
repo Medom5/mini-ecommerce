@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public routes */}
-          <Route path="/" element={<Navigate to="/catalog" />} />
+          <Route path="/" element={<Navigate to="/register" />} />
           <Route path="/catalog" element={<ProductCatalog />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

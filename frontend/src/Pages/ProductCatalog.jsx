@@ -1,6 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ProductCatalog = () => {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [cart, setCart] = useState({});
+
+    // Load cart from sessionStorage
+    useEffect(() => {
+        const savedCart = sessionStorage.getItem('cart');
+        if (savedCart) {
+            setCart(JSON.parse(savedCart));
+        }
+    }, []);
+
+    // Save cart on change
+    useEffect(() => {
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
+
+
+
+
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}

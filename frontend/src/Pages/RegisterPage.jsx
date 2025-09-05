@@ -38,7 +38,7 @@ const RegisterPage = () => {
 
             if (response.ok) {
                 alert("Registration successful! Please login.");
-                navigate("/auth/login");
+                navigate("/login");
             } else {
                 const errData = await response.json();
                 setError(errData.message || "Registration failed");

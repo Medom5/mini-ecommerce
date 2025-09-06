@@ -29,7 +29,7 @@ Frontend (React/Vite) ↔ REST API ↔ Spring Boot Backend ↔ H2 Database
 
 Before running the application, ensure you have installed:
 
-1. **Java Development Kit (JDK) 17 or higher**
+1. **Java Development Kit (JDK) 21 or higher**
    ```bash
    java -version
    ```
